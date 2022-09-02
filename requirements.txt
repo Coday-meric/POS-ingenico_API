@@ -1,0 +1,7 @@
+falcon==3.1.0
+gunicorn==20.1.0
+payment-card-identifier==0.1.2
+pycountry==18.2.23
+pyserial==3.5
+pyTeliumManager==2.4.2
+six==1.16.0
