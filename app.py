@@ -10,7 +10,7 @@ class Debit(object):
         amount = data['amount']
         r = pos.pos_debit(amount)
         resp.status = falcon.HTTP_200  # This is the default status
-        resp.body = json.dumps({"Message ": r})
+        resp.body = json.dumps({"state": r[0], "message ": r[1]})
 
 
 # falcon.API instances are callable WSGI apps

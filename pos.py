@@ -6,7 +6,7 @@ def pos_debit(amount):
     try:
         my_device = Telium('/dev/ttyACM0')
     except FileNotFoundError:
-        return 'Device not connected'
+        return False, 'Device not connected'
 
     # Construct our payment infos
     my_payment = TeliumAsk.new_payment(
@@ -21,9 +21,9 @@ def pos_debit(amount):
     # Send payment infos to device
     try:
         if not my_device.ask(my_payment):
-            return 'Device refused transaction.'
+            return False, 'Device refused transaction.'
     except TerminalInitializationFailedException as e:
-        return format(e)
+        return False, format(e)
 
     # Wait for terminal to answer
     my_answer = my_device.verify(my_payment)
@@ -52,7 +52,7 @@ def pos_debit(amount):
         # }
 
     if my_answer.has_succeeded:
-        return "Payment processed {0} {1} {2}".format(my_answer.has_succeeded, my_answer.card_type.name,
-                                                      my_answer.card_type.numbers)
+        return True, "Payment processed {0} {1} {2}".format(my_answer.has_succeeded, my_answer.card_type.name,
+                                                            my_answer.card_type.numbers)
     else:
-        return "Payment rejected."
+        return False, "Payment rejected."
